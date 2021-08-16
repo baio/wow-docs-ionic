@@ -1,0 +1,7 @@
+{
+  "name": "wow-docs",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
