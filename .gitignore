@@ -31,3 +31,5 @@ npm-debug.log*
 /www
 
 android
+!android/variables.gradle
+!android/app/src/main/AndroidManifest.xml
