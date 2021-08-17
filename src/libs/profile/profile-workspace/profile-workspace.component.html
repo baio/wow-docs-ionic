@@ -1,0 +1,11 @@
+<ng-container *ngIf="view$ | async as view">
+  <app-profile-social-providers [selectedProvider]="view.socialAuthProvider"
+    (selectedProviderChange)="onSelectedProviderChange($event)"></app-profile-social-providers>
+  <app-profile-config [cloudActive]="view.socialAuthProvider !== 'offline'" [config]="view.config"
+    (configChange)="onConfigChange($event)">
+  </app-profile-config>
+  <ion-button expand="block" color="light" *ngIf="view.socialAuthProvider !== 'offline'"
+    (click)="onDownloadFromCloud()">
+    <ion-icon slot="end" name="cloud-download-outline"></ion-icon>Синхронизировать с облаком
+  </ion-button>
+</ng-container>

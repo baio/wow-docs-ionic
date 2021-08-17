@@ -1,0 +1,7 @@
+<ion-card>
+  <ion-card-header>{{ docView?.title }}</ion-card-header>
+  <app-doc-image [imgBase64]="imgBase64" [attachmentsBase64]="attachmentsBase64" (cameraClick)="cameraClick.emit()"
+    (linkClick)="linkClick.emit()" (unlinkClick)="unlinkClick.emit($event)" (imageClick)="imageClick.emit($event)">
+  </app-doc-image>
+  <app-doc-display-content [docView]="docView"></app-doc-display-content>
+</ion-card>

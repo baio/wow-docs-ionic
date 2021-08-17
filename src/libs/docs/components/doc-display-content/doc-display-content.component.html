@@ -1,0 +1,17 @@
+<ion-card-content>
+  <ng-container *ngFor="let field of primaryFields; trackBy: trackByField">
+    <small>{{ field["label"] }}</small>
+    <p>{{ field["value"] }}</p>
+  </ng-container>
+  <ng-container *ngIf="secondaryFields.length > 0">
+    <ion-button expand="full" color="light" size="small" (click)="onToggleSecondaryExpanded()">
+      <ion-icon [name]="isSecondaryExpanded ? 'chevron-down-outline' : 'chevron-up-outline'"></ion-icon>
+    </ion-button>
+    <ng-container *ngIf="isSecondaryExpanded">
+      <ng-container *ngFor="let field of secondaryFields; trackBy: trackByField">
+        <small>{{ field["label"] }}</small>
+        <p>{{ field["value"] }}</p>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ion-card-content>

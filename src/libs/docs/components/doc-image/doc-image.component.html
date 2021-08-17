@@ -1,0 +1,27 @@
+<div class="img-content" *ngIf="view$ | async as view">
+  <ion-slides *ngIf="view.images.length > 1 else singleImage" [pager]="true" [options]="slideOpts"
+    (ionSlideDidChange)="onSlideChanged()">
+    <ion-slide *ngFor="let img of view.images; trackBy: trackByImage">
+      <img class="doc-image" [src]="img" (click)="onImageClick(view.activeSlideIndex)" />
+    </ion-slide>
+  </ion-slides>
+  <ng-template #singleImage>
+    <img class="doc-image" [src]="view.images[0]" (click)="onImageClick()" />
+  </ng-template>
+  <div class="title-overlay">
+    <ion-row>
+      <ion-col>
+      </ion-col>
+      <ion-col size="2">
+        <ion-fab-button size="small" color="primary" *ngIf="view.showCameraButton" (click)="onCameraClicked($event)">
+          <ion-icon name="camera-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-col>
+      <ion-col size="2">
+        <ion-fab-button size="small" color="light" (click)="onLinkClicked($event, view.activeSlideIndex)">
+          <ion-icon [name]="view.linkButtonMode === 'link' ? 'link-outline' : 'unlink-outline'"></ion-icon>
+        </ion-fab-button>
+      </ion-col>
+    </ion-row>
+  </div>
+</div>

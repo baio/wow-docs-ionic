@@ -1,0 +1,14 @@
+<ion-list>
+  <ion-item *ngIf="cloudActive">
+    <ion-label>Загружать в облако</ion-label>
+    <ion-toggle slot="start" name="autoCloudUpload" [checked]="config?.uploadToCloudAutomatically"
+      (ionChange)="onCloudUploadChange($event)"></ion-toggle>
+    <ion-icon slot="end" name="cloud-upload-outline"></ion-icon>
+  </ion-item>
+  <ion-item>
+    <ion-label>Извлекать данные автоматически</ion-label>
+    <ion-toggle slot="start" name="extractImageDataAutomatically" [checked]="config?.extractImageDataAutomatically"
+      (ionChange)="onExtractImageDataAutomaticallyChange($event)"></ion-toggle>
+    <ion-icon slot="end" name="scan-outline"></ion-icon>
+  </ion-item>
+</ion-list>

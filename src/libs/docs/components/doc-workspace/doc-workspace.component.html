@@ -1,0 +1,54 @@
+<ion-content *ngIf="view$ | async as view">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="flash-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="start">
+      <ion-fab-button color="success" (click)="onShare(view.doc)">
+        <ion-icon name="share-social-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button>
+        <ion-icon name="copy-outline" (click)="onCopyClipboard(view.doc)"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="secondary" (click)="onViewImage(view.doc, {imageType: 'main'})">
+        <ion-icon name="eye-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+    <ion-fab-list side="top">
+      <ion-fab-button color="danger" [disabled]="view.cloudUploadStatus === 'online-progress'"
+        (click)="onDelete(view.doc)">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="primary" (click)="onEdit(view.doc)">
+        <ion-icon name="create-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button *ngIf="
+          view.cloudUploadStatus === 'offline' ||
+          view.cloudUploadStatus === 'online-error'
+        " (click)="onCloudUpload(view.doc)">
+        <ion-icon name="cloud-offline-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button *ngIf="
+          view.cloudUploadStatus === 'online' ||
+          view.cloudUploadStatus === 'online-progress'
+        " [disabled]="view.cloudUploadStatus === 'online-progress'" (click)="onCloudRemove(view.doc)">
+        <ion-icon [name]="
+            view.cloudUploadStatus === 'online-progress'
+              ? 'cloud-upload-outline'
+              : 'cloud-outline'
+          "></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+  <app-doc-display [docView]="view.docView" [imgBase64]="view.doc.imgBase64"
+    [attachmentsBase64]="view.attachmentsBase64" (imageClick)="onViewImage(view.doc, $event)"
+    (cameraClick)="onImageCameraClick(view.doc)" (linkClick)="onImageLinkClick(view.doc)"
+    (unlinkClick)="onImageUnLinkClick(view.doc, $event)">
+  </app-doc-display>
+  <app-doc-tags [tags]="view.doc.tags" (addTag)="onAddTag(view.doc, $event)"
+    (removeTag)="onRemoveTag(view.doc, $event)"></app-doc-tags>
+  <ion-item>
+    <ion-textarea placeholder="Коментарий" [debounce]="500" (ionChange)="onCommentChange(view.doc, $event)"
+      [value]="view.doc.comment"></ion-textarea>
+  </ion-item>
+</ion-content>
