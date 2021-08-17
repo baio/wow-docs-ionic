@@ -44,7 +44,7 @@ export class YaAuthService {
       state: YA_VOW_DOCS_AUTH_STATE,
     };
 
-    console.log('wtf ???', qs);
+    console.log('login', qs);
 
     const url = `https://oauth.yandex.com/authorize${jsonToQueryString(qs)}`;
 
@@ -71,7 +71,7 @@ export class YaAuthService {
         const regex = `${this.config.redirectUrl.replace(
           /\//g,
           '\\/'
-        )}#state=${YA_VOW_DOCS_AUTH_STATE}&access_token=(\\w+)`;
+        )}#state=${YA_VOW_DOCS_AUTH_STATE}&access_token=(.*)&token_type`;
         const dataUrl = data.url;
         const match = dataUrl.match(regex);
         if (match.length === 2) {
