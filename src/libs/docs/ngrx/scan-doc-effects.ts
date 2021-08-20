@@ -14,7 +14,7 @@ import {
 } from './actions';
 
 const QUERY_FORMATTED_DOC_DELAY = 3 * 1000;
-const QUERY_FORMATTED_DOC_TIMER = 15 * 1000;
+const QUERY_FORMATTED_DOC_TIMER = 60 * 1000;
 
 @Injectable()
 export class ScanDocEffects {
