@@ -6,7 +6,7 @@ export class DocsApiService {
   private readonly uploadBaseUrl = 'https://vow.perimeter.pw';
   private readonly queryBaseUrl = 'https://vow.perimeter.pw';
   // private readonly uploadBaseUrl = 'http://192.168.0.103:3010';
-  // private readonly queryBaseUrl = 'http://192.168.0.103:3050';
+  //private readonly queryBaseUrl = 'http://192.168.0.103:3050';
 
   constructor(private readonly http: HttpClient) {}
 

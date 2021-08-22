@@ -1,4 +1,3 @@
-import { format } from 'date-fns';
 import { DocForm } from '../models';
 
 export const driverLicenseRF: DocForm = {
@@ -66,14 +65,28 @@ export const driverLicenseRF: DocForm = {
       kind: 'date',
     },
     {
-      label: 'Регион Region',
+      label: 'Выдано',
+      name: 'issuer',
+      kind: 'text',
+      group: 'issuer',
+    },
+    {
+      label: 'Issuer',
+      name: 'issuerEn',
+      kind: 'text',
+      group: 'issuer',
+    },
+    {
+      label: 'Регион',
       name: 'issuerRegion',
       kind: 'text',
+      group: 'region',
     },
     {
       label: 'Region',
       name: 'issuerRegionEn',
       kind: 'text',
+      group: 'region',
     },
     {
       label: 'Категории / Categories',
