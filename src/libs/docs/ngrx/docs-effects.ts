@@ -4,6 +4,7 @@ import {
   appStarted,
   ConfirmService,
   ConfirmType,
+  ImageViewerService,
   Notification,
   NotificationsService,
 } from '@app/shared';
@@ -29,7 +30,6 @@ import {
 } from 'rxjs/operators';
 import { AppDocEditWorkspaceComponent } from '../components/doc-edit-workspace/doc-edit-workspace.component';
 import { AppDocWorkspaceComponent } from '../components/doc-workspace/doc-workspace.component';
-import { AppFullScreenImageComponent } from '../components/full-screen-image/full-screen-image.component';
 import { DocsRepositoryService } from '../repository/docs.repository';
 import { docToText } from '../utils';
 import {
@@ -74,7 +74,8 @@ export class DocsEffects {
     private readonly store: Store,
     private readonly actionSheetController: ActionSheetController,
     private readonly notificationsService: NotificationsService,
-    private readonly confirmService: ConfirmService
+    private readonly confirmService: ConfirmService,
+    private readonly imageViewerService: ImageViewerService
   ) {}
 
   appStart$ = createEffect(() =>
@@ -364,14 +365,7 @@ export class DocsEffects {
             attachmentIndex === undefined
               ? doc.imgBase64
               : attachments[doc.attachments[attachmentIndex]].imgBase64;
-          const modal = await this.modalController.create({
-            component: AppFullScreenImageComponent,
-            componentProps: {
-              imgBase64,
-            },
-          });
-          await modal.present();
-          const { data } = await modal.onWillDismiss();
+          this.imageViewerService.show(imgBase64);
         })
       ),
     { dispatch: false }
