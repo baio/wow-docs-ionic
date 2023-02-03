@@ -10,20 +10,42 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2020",
+    "target": "ES2022",
     "module": "es2020",
-    "lib": ["es2018", "dom"],
+    "lib": [
+      "es2018",
+      "dom"
+    ],
     "paths": {
-        "@app/social-auth": ["src/libs/social-auth/index.ts"],
-        "@app/db": ["src/libs/db/index.ts"],
-        "@app/profile": ["src/libs/profile/index.ts"],
-        "@app/secure-storage": ["src/libs/secure-storage/index.ts"],
-        "@app/shared": ["src/libs/shared/index.ts"],
-        "@app/auth": ["src/libs/auth/index.ts"],
-        "@app/docs": ["src/libs/docs/index.ts"],
-        "@app/tags": ["src/libs/tags/index.ts"],
-        "@app/ya-disk": ["src/libs/ya-disk/index.ts"]
-    }    
+      "@app/social-auth": [
+        "src/libs/social-auth/index.ts"
+      ],
+      "@app/db": [
+        "src/libs/db/index.ts"
+      ],
+      "@app/profile": [
+        "src/libs/profile/index.ts"
+      ],
+      "@app/secure-storage": [
+        "src/libs/secure-storage/index.ts"
+      ],
+      "@app/shared": [
+        "src/libs/shared/index.ts"
+      ],
+      "@app/auth": [
+        "src/libs/auth/index.ts"
+      ],
+      "@app/docs": [
+        "src/libs/docs/index.ts"
+      ],
+      "@app/tags": [
+        "src/libs/tags/index.ts"
+      ],
+      "@app/ya-disk": [
+        "src/libs/ya-disk/index.ts"
+      ]
+    },
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
