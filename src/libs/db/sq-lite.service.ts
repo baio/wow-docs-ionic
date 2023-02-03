@@ -58,17 +58,14 @@ export class SqLiteService {
     database: string,
     fromVersion: number,
     toVersion: number,
-    statement: string,
-    set?: capSQLiteSet[]
+    statements: string[],
   ): Promise<void> {
     if (this.sqlite != null) {
       try {
         await this.sqlite.addUpgradeStatement(
           database,
-          fromVersion,
           toVersion,
-          statement,
-          set ? set : []
+          statements
         );
         return Promise.resolve();
       } catch (err) {
@@ -98,7 +95,8 @@ export class SqLiteService {
           database,
           encrypted,
           mode,
-          version
+          version,
+          false
         );
         if (db != null) {
           return Promise.resolve(db);
@@ -120,7 +118,7 @@ export class SqLiteService {
   async closeConnection(database: string): Promise<void> {
     if (this.sqlite != null) {
       try {
-        await this.sqlite.closeConnection(database);
+        await this.sqlite.closeConnection(database, false);
         return Promise.resolve();
       } catch (err) {
         return Promise.reject(new Error(err));
@@ -137,7 +135,7 @@ export class SqLiteService {
   async retrieveConnection(database: string): Promise<SQLiteDBConnection> {
     if (this.sqlite != null) {
       try {
-        return Promise.resolve(await this.sqlite.retrieveConnection(database));
+        return Promise.resolve(await this.sqlite.retrieveConnection(database, false));
       } catch (err) {
         return Promise.reject(new Error(err));
       }
@@ -186,7 +184,7 @@ export class SqLiteService {
   async isConnection(database: string): Promise<capSQLiteResult> {
     if (this.sqlite != null) {
       try {
-        return Promise.resolve(await this.sqlite.isConnection(database));
+        return Promise.resolve(await this.sqlite.isConnection(database, false));
       } catch (err) {
         return Promise.reject(new Error(err));
       }

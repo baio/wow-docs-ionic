@@ -16,7 +16,6 @@ export class CameraService {
         resultType: CameraResultType.Base64,
         saveToGallery: false,
         correctOrientation: false,
-        preserveAspectRatio: true,
         width: 1500,
         promptLabelHeader: 'Фото',
         promptLabelCancel: 'Отмена',
