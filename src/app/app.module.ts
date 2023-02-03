@@ -24,28 +24,27 @@ export function logger(reducer: ActionReducer<any>): any {
 export const metaReducers = environment.production ? [] : [logger];
 
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
-  imports: [
-    BrowserModule,
-    IonicModule.forRoot(),
-    AppRoutingModule,
-    StoreModule.forRoot({}, { metaReducers }),
-    StoreDevtoolsModule.instrument(),
-    IonicModule.forRoot(),
-    EffectsModule.forRoot(),
-    TabsPageModule,
-    DbModule,
-  ],
-  providers: [
-    {
-      provide: YA_AUTH_CONFIG,
-      useValue: {
-        ...environment.social.yandex,
-        deviceId: null,
-      },
-    },
-  ],
-  bootstrap: [AppComponent],
+    declarations: [AppComponent],
+    imports: [
+        BrowserModule,
+        IonicModule.forRoot(),
+        AppRoutingModule,
+        StoreModule.forRoot({}, { metaReducers }),
+        StoreDevtoolsModule.instrument(),
+        IonicModule.forRoot(),
+        EffectsModule.forRoot(),
+        TabsPageModule,
+        DbModule,
+    ],
+    providers: [
+        {
+            provide: YA_AUTH_CONFIG,
+            useValue: {
+                ...environment.social.yandex,
+                deviceId: null,
+            },
+        },
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}
