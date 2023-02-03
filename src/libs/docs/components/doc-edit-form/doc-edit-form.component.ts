@@ -4,7 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { fromPairs } from 'lodash/fp';
 import { getDocForm } from '../../definitions';
 import {
@@ -19,7 +19,7 @@ export interface UploadImageModalView {
   doc: Doc;
 }
 
-const createForm = (formBuilder: FormBuilder, doc: DocForm) => {
+const createForm = (formBuilder: UntypedFormBuilder, doc: DocForm) => {
   const formGroupConfig = fromPairs(
     doc.fields.map((field) => [field.name, []])
   );
@@ -36,7 +36,7 @@ const createForm = (formBuilder: FormBuilder, doc: DocForm) => {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppDocEditFormComponent implements OnInit {
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
   docForm: DocForm;
   _docLabel: DocLabel;
 
@@ -77,7 +77,7 @@ export class AppDocEditFormComponent implements OnInit {
   }
   @Input() docFormatted: DocFormatted;
 
-  constructor(private readonly fb: FormBuilder) {}
+  constructor(private readonly fb: UntypedFormBuilder) {}
 
   ngOnInit() {
     this.updateForm();
