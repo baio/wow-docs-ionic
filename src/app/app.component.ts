@@ -26,6 +26,8 @@ export const getDeviceId = async (secureStorage: SecureStorageService) => {
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+  isWeb = true;
+
   constructor(
     private readonly sqLiteService: SqLiteService,
     private readonly platform: Platform,
@@ -38,29 +40,48 @@ export class AppComponent {
     this.initializeApp();
   }
 
-  async initializeApp() {
+  private async initializeApp() {
     await this.platform.ready();
+    await this.initializeSqlite();
+    await this.initializeAuth();
+    await this.initializeDb();
+    this.store.dispatch(appStarted());
+  }
+
+  private async initializeSqlite() {
     const ret = await this.sqLiteService.initializePlugin();
     console.log('$$$ in App  this.initPlugin ', ret);
 
+    if (this.sqLiteService.platform === 'web') {
+      this.isWeb = true;
+      await customElements.whenDefined('jeep-sqlite');
+      const jeepSqliteEl = document.querySelector('jeep-sqlite');
+      if (jeepSqliteEl != null) {
+        console.log(`>>>> isStoreOpen ${await jeepSqliteEl.isStoreOpen()}`);
+      } else {
+        console.log('>>>> jeepSqliteEl is null');
+      }
+      await this.sqLiteService.initWebStore();
+    }
+
     const res = await this.sqLiteService.echo('Hello World');
     console.log('$$$ from Echo ' + res.value);
+  }
 
+  private async initializeAuth() {
     const deviceId = await getDeviceId(this.secureStorageService);
     this.yaAuthService.setDeviceId(deviceId);
     console.log('!!! device id set ', deviceId);
-
     await this.authService.isAuthenticated$
       .pipe(
         filter((f) => !!f),
         take(1)
       )
       .toPromise();
+  }
 
+  private async initializeDb() {
     const securityKey = await this.authService.getSecurityKey();
-
     await this.db.init(securityKey);
-
-    this.store.dispatch(appStarted());
   }
 }
