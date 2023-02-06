@@ -14,8 +14,12 @@ export class AuthService {
   constructor(private readonly secureStorageService: SecureStorageService) {}
 
   async isBiometricAvailable() {
-    const result = await NativeBiometric.isAvailable();
-    return result.isAvailable;
+    try {
+      const result = await NativeBiometric.isAvailable();
+      return result.isAvailable;
+    } catch {
+      return false;
+    }
   }
 
   getPin() {
@@ -27,8 +31,7 @@ export class AuthService {
   }
 
   async authenticateBiometric(setFirstTimeCredentials: boolean) {
-    const result = await NativeBiometric.isAvailable();
-    const isAvailable = result.isAvailable;
+    const isAvailable = await this.isBiometricAvailable();
     if (isAvailable) {
       try {
         // Authenticate using biometrics before logging the user in
