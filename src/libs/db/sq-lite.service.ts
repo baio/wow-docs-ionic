@@ -14,7 +14,7 @@ import {
   capNCDatabasePathResult,
 } from '@capacitor-community/sqlite';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class SqLiteService {
   sqlite: SQLiteConnection;
   isService = false;
@@ -330,7 +330,9 @@ export class SqLiteService {
   async retrieveConnection(database: string): Promise<SQLiteDBConnection> {
     if (this.sqlite != null) {
       try {
-        return Promise.resolve(await this.sqlite.retrieveConnection(database, false));
+        return Promise.resolve(
+          await this.sqlite.retrieveConnection(database, false)
+        );
       } catch (err) {
         return Promise.reject(new Error(err));
       }

@@ -15,7 +15,9 @@ export class DbService {
     const dbName = 'vowdocs';
 
     await this.sqLite.checkConnectionsConsistency();
-    await this.sqLite.sqlite.setEncryptionSecret(secretKey);
+    if (this.sqLite.native) {
+      await this.sqLite.sqlite.setEncryptionSecret(secretKey);
+    }
     this.db = await this.sqLite.createConnection(dbName, true, 'secret', 1);
 
     // await this.db.delete();
