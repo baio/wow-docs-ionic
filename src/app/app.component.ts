@@ -37,11 +37,12 @@ export class AppComponent {
     private readonly yaAuthService: YaAuthService,
     private readonly secureStorageService: SecureStorageService
   ) {
+    this.authService.setAuthenticated();
     this.initializeApp();
   }
 
   private async initializeApp() {
-    await this.platform.ready();
+    await this.platform.ready();    
     await this.initializeSqlite();
     await this.initializeAuth();
     await this.initializeDb();

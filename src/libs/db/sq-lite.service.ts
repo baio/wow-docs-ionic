@@ -597,4 +597,31 @@ export class SqLiteService {
       return Promise.reject(new Error(`no connection open for ${database}`));
     }
   }
+
+  async openDatabase(
+    dbName: string,
+    encrypted: boolean,
+    mode: string,
+    version: number,
+    readonly: boolean
+  ): Promise<SQLiteDBConnection> {
+    let db: SQLiteDBConnection;
+    const retCC = (await this.sqlite.checkConnectionsConsistency()).result;
+    const isConn = (await this.sqlite.isConnection(dbName, readonly)).result;
+    if (retCC && isConn) {
+      db = await this.sqlite.retrieveConnection(dbName, readonly);
+      console.log('>>> openDatabase retrieveConnection', db);
+    } else {
+      db = await this.sqlite.createConnection(
+        dbName,
+        encrypted,
+        mode,
+        version,
+        readonly
+      );
+    }
+    await db.open();
+    console.log('>>> openDatabase create connection', db);
+    return db;
+  }
 }

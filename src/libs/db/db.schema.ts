@@ -22,6 +22,4 @@ CREATE TABLE IF NOT EXISTS tags (
     id TEXT PRIMARY KEY NOT NULL,
     createDate TEXT
 );
-
-PRAGMA user_version = 1;
 `;

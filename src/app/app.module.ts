@@ -13,8 +13,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TabsPageModule } from './tabs/tabs.module';
 
-
-
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function logger(reducer: ActionReducer<any>): any {
   // default, no options

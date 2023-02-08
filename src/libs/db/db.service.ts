@@ -3,6 +3,9 @@ import { SQLiteDBConnection } from '@capacitor-community/sqlite';
 import { schemaV1 } from './db.schema';
 import { SqLiteService } from './sq-lite.service';
 
+const DB_NAME = 'vowdocs';
+const DB_VERSION = 1;
+
 @Injectable({ providedIn: 'root' })
 export class DbService {
   private db: SQLiteDBConnection;
@@ -12,37 +15,42 @@ export class DbService {
     if (this.db) {
       throw new Error('Db is already initialized');
     }
-    const dbName = 'vowdocs';
 
-    await this.sqLite.checkConnectionsConsistency();
+    await this.sqLite.addUpgradeStatement(DB_NAME, DB_VERSION, [schemaV1]);
+
     if (this.sqLite.native) {
       await this.sqLite.sqlite.setEncryptionSecret(secretKey);
-    }
-    this.db = await this.sqLite.createConnection(dbName, true, 'secret', 1);
-
-    // await this.db.delete();
-    await this.db.open();
-
-    // create tables in db
-    const execSchemaResult = await this.db.execute(schemaV1);
-    console.log(
-      '$$$ ret.changes.changes in db ' + execSchemaResult.changes.changes
-    );
-
-    if (execSchemaResult.changes.changes < 0) {
-      return Promise.reject(new Error('Execute createSyncTable failed'));
-    } else if (execSchemaResult.changes.changes > 0) {
-      const now = new Date().toISOString();
-      await this.db.setSyncDate(now);
-      console.log('$$$ schema synced ', now);
+      this.db = await this.sqLite.openDatabase(
+        DB_NAME,
+        true,
+        'secret',
+        DB_VERSION,
+        false
+      );
+    } else {
+      this.db = await this.sqLite.openDatabase(
+        DB_NAME,
+        false,
+        'no-encryption',
+        DB_VERSION,
+        false
+      );
     }
   }
 
-  runCommand(command: string, params: any[]) {
-    return this.db.run(command, params);
+  async runCommand(command: string, params: any[]) {
+    const result = await this.db.run(command, params);
+    if (this.isWeb) {
+      await this.sqLite.saveToStore(DB_NAME);
+    }
+    return result;
   }
 
   runQuery(command: string) {
     return this.db.query(command);
+  }
+
+  private get isWeb() {
+    return this.sqLite.platform === 'web';
   }
 }
